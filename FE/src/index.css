@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-game-primary text-white min-h-screen;
+}
+
+.game-cell {
+  @apply w-full h-full flex items-center justify-center text-6xl font-bold cursor-pointer 
+         transition-all duration-300 hover:bg-game-secondary/20;
+}
+
+.game-board {
+  @apply grid grid-cols-3 gap-2 bg-game-secondary/10 p-2 rounded-lg 
+         w-[90vw] h-[90vw] max-w-[600px] max-h-[600px];
+}
