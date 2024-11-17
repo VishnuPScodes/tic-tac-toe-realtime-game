@@ -21,6 +21,7 @@ export class Game {
       currentPlayer: this.currentPlayer,
       winner: this.winner,
       isGameOver: this.isGameOver,
+      winningLine: this.winningLine
     };
   }
 
@@ -38,8 +39,10 @@ export class Game {
     this.switchPlayer();
   }
 
+  private winningLine: { start: number[]; end: number[] } | null = null;
+
   checkForWinner(): void {
-    // Check rows and columns for a winner
+    // Check rows for a winner
     for (let i = 0; i < 3; i++) {
       if (
         this.board[i][0] === this.board[i][1] &&
@@ -48,9 +51,13 @@ export class Game {
       ) {
         this.winner = this.board[i][0];
         this.isGameOver = true;
+        this.winningLine = { start: [i, 0], end: [i, 2] };
         return;
       }
+    }
 
+    // Check columns for a winner
+    for (let i = 0; i < 3; i++) {
       if (
         this.board[0][i] === this.board[1][i] &&
         this.board[1][i] === this.board[2][i] &&
@@ -58,21 +65,31 @@ export class Game {
       ) {
         this.winner = this.board[0][i];
         this.isGameOver = true;
+        this.winningLine = { start: [0, i], end: [2, i] };
         return;
       }
     }
 
     // Check diagonals for a winner
     if (
-      (this.board[0][0] === this.board[1][1] &&
-        this.board[1][1] === this.board[2][2] &&
-        this.board[0][0] !== null) ||
-      (this.board[0][2] === this.board[1][1] &&
-        this.board[1][1] === this.board[2][0] &&
-        this.board[0][2] !== null)
+      this.board[0][0] === this.board[1][1] &&
+      this.board[1][1] === this.board[2][2] &&
+      this.board[0][0] !== null
     ) {
       this.winner = this.board[1][1];
       this.isGameOver = true;
+      this.winningLine = { start: [0, 0], end: [2, 2] };
+      return;
+    }
+
+    if (
+      this.board[0][2] === this.board[1][1] &&
+      this.board[1][1] === this.board[2][0] &&
+      this.board[0][2] !== null
+    ) {
+      this.winner = this.board[1][1];
+      this.isGameOver = true;
+      this.winningLine = { start: [0, 2], end: [2, 0] };
       return;
     }
 

@@ -1,3 +1,5 @@
+import { Game } from '../models/Game';
+import { Socket } from 'socket.io';
 export type Player = 'X' | 'O';
 
 export interface GameBoard {
@@ -5,6 +7,8 @@ export interface GameBoard {
     currentPlayer: Player;
     winner: Player | null;
     isGameOver: boolean;
+    waitingForPlayer?: boolean;
+    winningLine?: { start: number[]; end: number[] } | null;
 }
 
 export interface GameMove {
@@ -14,15 +18,17 @@ export interface GameMove {
 }
 
 export interface WebSocketMessage {
-    type: 'JOIN_GAME' | 'MAKE_MOVE' | 'GAME_UPDATE' | 'ERROR';
+    type: 'JOIN_GAME' | 'MAKE_MOVE' | 'GAME_UPDATE' | 'ERROR' | 'CONNECTION_SUCCESS';
     gameId?: string;
     move?: GameMove;
     gameState?: GameBoard;
     error?: string;
+    player?: Player;
+    timestamp?: string;
 }
 
 export interface GameRoom {
     gameId: string;
-    players: Map<Player, WebSocket>;
+    players: Map<Player, Socket>;
     game: Game;
 }
