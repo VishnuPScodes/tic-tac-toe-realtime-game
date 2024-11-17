@@ -16,11 +16,7 @@ const App: React.FC = () => {
   const [username, setUsername] = useState<string>(
     () => localStorage.getItem("username") || ""
   );
-  const [playerSymbol, setPlayerSymbol] = useState<"X" | "O" | null>(null);
-  const [winningLine, setWinningLine] = useState<{
-    start: number[];
-    end: number[];
-  } | null>(null);
+  const [playerSymbol, setPlayerSymbol] = useState<"X" | "O" | null>(null);  const [winningLine, setWinningLine] = useState<{ start: number[]; end: number[]; } | null>(null);
 
   useEffect(() => {
     if (!username) return;
@@ -64,6 +60,7 @@ const App: React.FC = () => {
       } else {
         setWinningLine(null);
       }
+      console.log('Winning line:', data.gameState.winningLine);
     });
 
     setSocket(newSocket);
